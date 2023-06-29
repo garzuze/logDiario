@@ -131,4 +131,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/journal" />
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
