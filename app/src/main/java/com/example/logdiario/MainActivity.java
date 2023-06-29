@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     Button btnStart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -54,8 +53,15 @@ public class MainActivity extends AppCompatActivity {
                 // Intent que leva para a próxima tela
                 Intent in = new Intent(MainActivity.this, bd_screen.class);
                 startActivity(in);
+                cleanUp();
             }
         });
+    }
 
+    // Limpar todos os campos
+    public void cleanUp(){
+        txtName.setText("");
+        txtEmail.setText("");
+        txtPassword.setText("");
     }
 }

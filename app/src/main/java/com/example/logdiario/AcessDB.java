@@ -67,15 +67,19 @@ public class AcessDB extends SQLiteOpenHelper{
         }
     }
 
+    // Método para alterar usuário
+    // Ele recebe como parametro o usuário que será alterado (atualizado, por isso update)
     public boolean updateUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase(); //getWritableDatabase() permite a gravação em um banco de dados
+
+        // Associando os dados necessários para alteração no banco de dados
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(nameUser, user.getNameUser());
         contentValues.put(emailUser, user.getemailUser());
         contentValues.put(pwdUser, user.getpwdUser());
-        //Por quê não tem o ID aqui? Porque o ID é tem incremento automático (AUTOINCREMENT). Veja a linha "CREATE TABLE..." dentro do método onCreate.
 
+        // Comando SQL para alterar o usuário baseado em seu ID
         long update = db.update(tbUser,
                 contentValues,
                 idUser + "=" + user.getIdUser(),
@@ -92,6 +96,7 @@ public class AcessDB extends SQLiteOpenHelper{
     public List<User> getUserList(){
         List<User> userList = new ArrayList<>();
 
+        // Pega todos os elementos da tabela tbUser
         String queryStatement = "SELECT * FROM "+ tbUser;
 
         SQLiteDatabase db = this.getReadableDatabase();

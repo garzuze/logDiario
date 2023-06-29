@@ -48,46 +48,56 @@ public class bd_screen extends AppCompatActivity {
         users_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Pega a posição (id) do usuário que foi clicado
                 User clicked_user = (User)parent.getItemAtPosition(position);
+                //Seta os campos de nome, email e senha para corresponderem ao do usuário clicado
                 txt_name.setText(clicked_user.getNameUser());
                 txt_email.setText(clicked_user.getemailUser());
                 txt_pwd.setText(clicked_user.getpwdUser());
 
+                // Ação do botão remover
                 btn_remove.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // Remove o usuário clickado e atualiza a lista
                         database.removeUser(clicked_user);
                         updateListView(database);
+
+                        cleanUp();
                     }
                 });
 
+                // Ação do botão alterar
                 btn_update.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // Cria um objeto User, com o id do usuário clicado, que irá pegar os campos
+                        // com as novas informações e alterar o usuário correspondente
                         User user_update = new User(clicked_user.getIdUser(),
                                 txt_name.getText().toString(),
                                 txt_email.getText().toString(),
                                 txt_pwd.getText().toString());
-                        database.updateUser(user_update);
+
+                        cleanUp();
+                        database.updateUser(user_update); // Chamada do método update que vai setar
+                        // o novo usuário alterado no lugar do que foi clicado
                         updateListView(database);
                     }
                 });
             }
         });
-
-
     }
-    Toast t;
-
-    private void makeToast(String s) {
-        if (t != null) t.cancel();
-        t = Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT);
-        t.show();
-    }
-
+    // Método para atualizar a ListView
     private void updateListView(AcessDB database) {
         ArrayAdapter userArray = new ArrayAdapter<User>(getApplicationContext(),
                 android.R.layout.simple_list_item_1, database.getUserList());//Dentro de <> está o tipo de objeto que será adicionado na lista
         users_list.setAdapter(userArray);
+    }
+
+    // Método para limpar os campos
+    public void cleanUp(){
+        txt_name.setText("");
+        txt_email.setText("");
+        txt_pwd.setText("");
     }
 }
